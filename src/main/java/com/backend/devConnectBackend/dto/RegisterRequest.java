@@ -1,4 +1,4 @@
-package com.backend.demo.dto;
+package com.backend.devConnectBackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
@@ -36,4 +36,5 @@ public class RegisterRequest {
     public String getRole() {
         return role;
     }
+
 }

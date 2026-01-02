@@ -1,11 +1,11 @@
-package com.backend.demo;
+package com.backend.devConnectBackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class DevConnectBackendApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(DevConnectBackendApplication.class, args);
 	}
 }

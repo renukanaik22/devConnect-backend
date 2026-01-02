@@ -1,8 +1,8 @@
-package com.backend.demo.controller;
+package com.backend.devConnectBackend.controller;
 
-import com.backend.demo.dto.LoginRequest;
-import com.backend.demo.dto.RegisterRequest;
-import com.backend.demo.service.AuthService;
+import com.backend.devConnectBackend.dto.LoginRequest;
+import com.backend.devConnectBackend.dto.RegisterRequest;
+import com.backend.devConnectBackend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +21,9 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public String login(@RequestBody LoginRequest req) {
+    public String login(@Valid @RequestBody LoginRequest req) {
         return authService.login(req);
     }
 
-    @GetMapping("/login-test")
-    public String loginTest() {
-        return "login-test ok";
-    }
 }
 //Frontend → backend service → repo → JWT → response.

@@ -1,6 +1,6 @@
-package com.backend.demo.repository;
+package com.backend.devConnectBackend.repository;
 
-import com.backend.demo.model.User;
+import com.backend.devConnectBackend.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

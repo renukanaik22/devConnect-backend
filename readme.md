@@ -61,7 +61,7 @@ Used widely in REST APIs, mobile apps, SPAs, and microservices.
 ## 🧩 Project Structure
 
 ```
-src/main/java/com/backend/demo
+src/main/java/com/backend/devConnectBackend
  ├── controller
  │     └── AuthController.java
  ├── dto
@@ -76,7 +76,7 @@ src/main/java/com/backend/demo
  │     └── JwtService.java
  ├── service
  │     └── AuthService.java
- └── DemoApplication.java
+ └── DevConnectBackendApplication.java
 ```
 
 ---
@@ -202,12 +202,36 @@ mvn spring-boot:run
 
 ---
 
-## 🚀 Next Steps (optional improvements)
+## 🚀 Next Steps
 
-* Add JWT filter to secure APIs
+
 * Store users in database (MySQL / MongoDB)
 * Add BCrypt password hashing
 * Add role-based authorization (`ROLE_ADMIN`, `ROLE_USER`)
 * Add refresh tokens
 * Deploy on AWS / Render / Railway
 
+
+API developed so far 
+1. Register User
+Method: POST
+URL: http://localhost:8080/register
+Body (JSON):
+json
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "Password@123",
+  "role": "USER"
+}
+(Note: Password likely needs 1 uppercase, 1 lowercase, 1 number, and min 8 chars based on your validation rules).
+2. Login User
+Method: POST
+URL: http://localhost:8080/auth/login
+Body (JSON):
+json
+{
+  "email": "test@example.com",
+  "password": "Password@123"
+}
+Response: You should receive a long text string starting with eyJ.... This is your signed JWT Token.

@@ -1,10 +1,10 @@
-package com.backend.demo.service;
+package com.backend.devConnectBackend.service;
 
-import com.backend.demo.dto.LoginRequest;
-import com.backend.demo.dto.RegisterRequest;
-import com.backend.demo.model.User;
-import com.backend.demo.repository.UserRepository;
-import com.backend.demo.security.JwtService;
+import com.backend.devConnectBackend.dto.LoginRequest;
+import com.backend.devConnectBackend.dto.RegisterRequest;
+import com.backend.devConnectBackend.model.User;
+import com.backend.devConnectBackend.repository.UserRepository;
+import com.backend.devConnectBackend.security.JwtService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

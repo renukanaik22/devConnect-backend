@@ -1,4 +1,4 @@
-package com.backend.demo.security;
+package com.backend.devConnectBackend.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

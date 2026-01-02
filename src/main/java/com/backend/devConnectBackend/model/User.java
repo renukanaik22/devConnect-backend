@@ -1,4 +1,4 @@
-package com.backend.demo.model;
+package com.backend.devConnectBackend.model;
 
 public class User {
 
