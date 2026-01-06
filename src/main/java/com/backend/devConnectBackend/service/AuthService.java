@@ -8,6 +8,8 @@ import com.backend.devConnectBackend.security.JwtService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
 
@@ -21,19 +23,29 @@ public class AuthService {
     }
 
     public String register(RegisterRequest request) {
+        if (repo.findByEmail(request.getEmail()).isPresent()) {
+            return "User already exists!";
+        }
+
         String hashed = encoder.encode(request.getPassword());
         User user = new User(
                 request.getName(),
                 request.getEmail(),
                 hashed,
-                request.getRole()
-        );
+                request.getRole());
         repo.save(user);
         return "User registered!";
     }
 
     public String login(LoginRequest req) {
-        User user = repo.findByEmail(req.getEmail());
+        Optional<User> userOpt = repo.findByEmail(req.getEmail());
+
+        if (userOpt.isEmpty()) {
+            return "User not found!";
+        }
+
+        User user = userOpt.get();
+
         if (!encoder.matches(req.getPassword(), user.getPassword())) {
             return "Invalid password!";
         }

@@ -1,3 +1,47 @@
+Architecture flow 
++-----------------------------+
+|           Client            |
+|     (Postman / Frontend)    |
++--------------+--------------+
+               |
+               v
++-----------------------------+
+|    Security Filter Chain    |
+|   (JWT, Permit /auth/**)   |
++--------------+--------------+
+               |
+               v
++-----------------------------+
+|        AuthController       |
+|     (REST Endpoints)        |
++--------------+--------------+
+               |
+               v
++-----------------------------+
+|          AuthService        |
+|     (Business Logic)        |
++----+-----------+-----------+
+     |           |
+     |           |
+     v           v
++-----------+   +------------------+
+|  BCrypt   |   |   JWT Service    |
+| Password  |   | Token Generate   |
+|  Encoder  |   | & Validation     |
++-----------+   +------------------+
+     |
+     |
+     v
++-----------------------------+
+|       UserRepository        |
+|   (MongoRepository)         |
++--------------+--------------+
+               |
+               v
++-----------------------------+
+|           MongoDB           |
+|      User Collection        |
++-----------------------------+
 
 
 # 🚀 Spring Boot JWT Authentication API
@@ -8,7 +52,7 @@ A simple **Spring Boot Authentication System** built with:
 * Spring Web
 * Spring Security
 * JSON Web Tokens (JWT)
-* In-memory repository (HashMap)
+* MongoDB Repository
 * Tested using Postman
 
 This project demonstrates the **core backend login flow**:
@@ -27,9 +71,9 @@ Used widely in REST APIs, mobile apps, SPAs, and microservices.
 ### ✅ User Registration (`POST /register`)
 
 * Accepts name, email, password, role
-* Stores user in memory (`HashMap`)
+* Stores user in **MongoDB**
 
-### ✅ User Login (`POST /login` or `/auth/login`)
+### ✅ User Login (`POST /auth/login`)
 
 * Validates email + password
 * Generates a signed **JWT token** containing:
@@ -70,7 +114,7 @@ src/main/java/com/backend/devConnectBackend
  ├── model
  │     └── User.java
  ├── repository
- │     └── UserRepository.java   // In-memory HashMap repo
+ │     └── UserRepository.java   // MongoRepository
  ├── security
  │     ├── SecurityConfig.java
  │     └── JwtService.java
@@ -198,21 +242,14 @@ mvn spring-boot:run
 * Configuring Spring Security with `SecurityFilterChain`
 * Disabling CSRF for APIs
 * Generating secure JWT tokens
-* Using `HashMap` for in-memory storage
+* Using `MongoDB` 
+
+
 
 ---
 
-## 🚀 Next Steps
-
-
-* Store users in database (MySQL / MongoDB)
-* Add BCrypt password hashing
-* Add role-based authorization (`ROLE_ADMIN`, `ROLE_USER`)
-* Add refresh tokens
-* Deploy on AWS / Render / Railway
-
-
-API developed so far 
+## 🛠 API Reference (Current)
+ 
 1. Register User
 Method: POST
 URL: http://localhost:8080/register
