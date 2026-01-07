@@ -50,7 +50,12 @@ class AuthServiceTest {
     @Test
     void login_Success() {
         LoginRequest request = createLoginRequest();
-        User user = new User("John", "john@test.com", encoder.encode("password123"), "USER");
+        User user = User.builder()
+                .name("John")
+                .email("john@test.com")
+                .password(encoder.encode("password123"))
+                .role("USER")
+                .build();
         when(userRepository.findByEmail("john@test.com")).thenReturn(Optional.of(user));
         when(jwtService.generateToken("john@test.com", "USER")).thenReturn("jwt-token");
 
@@ -63,7 +68,12 @@ class AuthServiceTest {
     @Test
     void login_InvalidPassword() {
         LoginRequest request = createLoginRequest();
-        User user = new User("John", "john@test.com", encoder.encode("wrongpassword"), "USER");
+        User user = User.builder()
+                .name("John")
+                .email("john@test.com")
+                .password(encoder.encode("wrongpassword"))
+                .role("USER")
+                .build();
         when(userRepository.findByEmail("john@test.com")).thenReturn(Optional.of(user));
 
         String result = authService.login(request);
@@ -73,34 +83,19 @@ class AuthServiceTest {
     }
 
     private RegisterRequest createRegisterRequest() {
-        return new RegisterRequest() {
-            public String getName() {
-                return "John";
-            }
-
-            public String getEmail() {
-                return "john@test.com";
-            }
-
-            public String getPassword() {
-                return "password123";
-            }
-
-            public String getRole() {
-                return "USER";
-            }
-        };
+        return RegisterRequest.builder()
+                .name("John")
+                .email("john@test.com")
+                .password("password123")
+                .role("USER")
+                .skills(java.util.List.of("Java", "Spring"))
+                .build();
     }
 
     private LoginRequest createLoginRequest() {
-        return new LoginRequest() {
-            public String getEmail() {
-                return "john@test.com";
-            }
-
-            public String getPassword() {
-                return "password123";
-            }
-        };
+        return LoginRequest.builder()
+                .email("john@test.com")
+                .password("password123")
+                .build();
     }
 }

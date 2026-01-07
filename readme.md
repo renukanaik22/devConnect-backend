@@ -135,10 +135,15 @@ src/main/java/com/backend/devConnectBackend
 
 ```json
 {
-  "name": "Renuka",
-  "email": "renuka@gmail.com",
-  "password": "12345",
-  "role": "ADMIN"
+  "name": "Renuka Raut",
+  "email": "raut.renuka@gmail.com",
+  "password": "Password123",
+  "role": "USER",
+  "skills": [
+    "Java",
+    "Spring Boot",
+    "MongoDB"
+  ]
 }
 ```
 

@@ -28,23 +28,25 @@ public class AuthService {
         }
 
         String hashed = encoder.encode(request.getPassword());
-        User user = new User(
-                request.getName(),
-                request.getEmail(),
-                hashed,
-                request.getRole());
+        User user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(hashed)
+                .role(request.getRole())
+                .skills(request.getSkills())
+                .build();
         repo.save(user);
         return "User registered!";
     }
 
     public String login(LoginRequest req) {
-        Optional<User> userOpt = repo.findByEmail(req.getEmail());
+        Optional<User> userOptional = repo.findByEmail(req.getEmail());
 
-        if (userOpt.isEmpty()) {
+        if (userOptional.isEmpty()) {
             return "User not found!";
         }
 
-        User user = userOpt.get();
+        User user = userOptional.get();
 
         if (!encoder.matches(req.getPassword(), user.getPassword())) {
             return "Invalid password!";

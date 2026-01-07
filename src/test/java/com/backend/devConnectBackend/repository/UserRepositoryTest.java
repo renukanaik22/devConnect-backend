@@ -19,7 +19,13 @@ public class UserRepositoryTest {
 
     @Test
     void saveAndFind_Success() {
-        User user = new User("TestRepo", "repo@test.com", "pass", "USER");
+        User user = User.builder()
+                .name("TestRepo")
+                .email("repo@test.com")
+                .password("pass")
+                .role("USER")
+                .skills(java.util.List.of("MongoDB"))
+                .build();
         userRepository.save(user);
 
         Optional<User> found = userRepository.findByEmail("repo@test.com");
