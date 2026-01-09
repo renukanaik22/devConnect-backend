@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @lombok.Builder
 @lombok.NoArgsConstructor
 @lombok.AllArgsConstructor
-public class User {
+public class User implements org.springframework.security.core.userdetails.UserDetails {
 
     @Id
     private String id;
@@ -23,4 +23,34 @@ public class User {
     private String role;
     @lombok.Builder.Default
     private java.util.List<String> skills = new java.util.ArrayList<>();
+
+    @Override
+    public java.util.Collection<? extends org.springframework.security.core.GrantedAuthority> getAuthorities() {
+        return java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority(role));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
