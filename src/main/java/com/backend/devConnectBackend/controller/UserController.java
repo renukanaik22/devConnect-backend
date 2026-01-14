@@ -23,11 +23,10 @@ public class UserController {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return UserProfileDto.builder()
-                .name(user.getName())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .skills(user.getSkills())
-                .build();
+        return new UserProfileDto(
+                user.getName(),
+                user.getEmail(),
+                user.getRole(),
+                user.getSkills());
     }
 }

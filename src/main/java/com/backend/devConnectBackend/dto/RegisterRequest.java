@@ -5,26 +5,24 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-@JsonIgnoreProperties(ignoreUnknown = false)
-@lombok.Data
-@lombok.Builder
-@lombok.NoArgsConstructor
-@lombok.AllArgsConstructor
-public class RegisterRequest {
-    @NotBlank(message = "Name is required")
-    private String name;
+import java.util.ArrayList;
+import java.util.List;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Need valid email")
-    private String email;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record RegisterRequest(
+        @NotBlank(message = "Name is required") String name,
 
-    @NotBlank(message = "Password is required")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters long and include 1 uppercase, 1 lowercase, and 1 number")
-    private String password;
+        @NotBlank(message = "Email is required") @Email(message = "Need valid email") String email,
 
-    @NotBlank(message = "Role is required")
-    private String role;
+        @NotBlank(message = "Password is required") @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters long and include 1 uppercase, 1 lowercase, and 1 number") String password,
 
-    @lombok.Builder.Default
-    private java.util.List<String> skills = new java.util.ArrayList<>();
+        @NotBlank(message = "Role is required") String role,
+
+        List<String> skills) {
+    // Compact constructor to handle null skills with default empty list
+    public RegisterRequest {
+        if (skills == null) {
+            skills = new ArrayList<>();
+        }
+    }
 }

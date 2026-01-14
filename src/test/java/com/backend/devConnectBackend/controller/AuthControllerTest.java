@@ -29,14 +29,14 @@ class AuthControllerTest {
     @Test
     @WithMockUser
     void register_FourParameters() throws Exception {
-        when(authService.register(any())).thenReturn("User registered successfully");
-        String requestBody = "{\"name\":\"John\",\"email\":\"john@example.com\",\"password\":\"Password123\",\"role\":\"USER\"}";
-        
+        org.mockito.Mockito.doNothing().when(authService).register(any());
+        String requestBody = "{\"name\":\"John\",\"email\":\"john@example.com\",\"password\":\"Password123\",\"role\":\"USER\",\"skills\":[\"Java\"]}";
+
         mockMvc.perform(post("/register")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -52,9 +52,10 @@ class AuthControllerTest {
     @Test
     @WithMockUser
     void login_TwoParameters() throws Exception {
-        when(authService.login(any())).thenReturn("jwt-token");
+        when(authService.login(any()))
+                .thenReturn(new com.backend.devConnectBackend.dto.LoginResult.Success("jwt-token"));
         String requestBody = "{\"email\":\"john@example.com\",\"password\":\"Password123\"}";
-        
+
         mockMvc.perform(post("/auth/login")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
