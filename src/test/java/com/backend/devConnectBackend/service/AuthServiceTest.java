@@ -1,6 +1,7 @@
 package com.backend.devConnectBackend.service;
 
 import com.backend.devConnectBackend.dto.LoginRequest;
+import com.backend.devConnectBackend.dto.LoginResult;
 import com.backend.devConnectBackend.dto.RegisterRequest;
 import com.backend.devConnectBackend.model.User;
 import com.backend.devConnectBackend.repository.UserRepository;
@@ -39,63 +40,74 @@ class AuthServiceTest {
     @Test
     void register_Success() {
         RegisterRequest request = createRegisterRequest();
-        when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(request.email())).thenReturn(Optional.empty());
 
-        String result = authService.register(request);
+        authService.register(request);
 
-        assertEquals("User registered!", result);
         verify(userRepository).save(any(User.class));
     }
 
     @Test
     void login_Success() {
         LoginRequest request = createLoginRequest();
-        User user = User.builder()
-                .name("John")
-                .email("john@test.com")
-                .password(encoder.encode("password123"))
-                .role("USER")
-                .build();
+        User user = new User(
+                null,
+                "John",
+                "john@test.com",
+                encoder.encode("password123"),
+                "USER",
+                java.util.List.of());
         when(userRepository.findByEmail("john@test.com")).thenReturn(Optional.of(user));
         when(jwtService.generateToken("john@test.com", "USER")).thenReturn("jwt-token");
 
-        String result = authService.login(request);
+        LoginResult result = authService.login(request);
 
-        assertEquals("jwt-token", result);
+        assertTrue(result instanceof LoginResult.Success);
+        assertEquals("jwt-token", ((LoginResult.Success) result).token());
         verify(jwtService).generateToken("john@test.com", "USER");
     }
 
     @Test
     void login_InvalidPassword() {
         LoginRequest request = createLoginRequest();
-        User user = User.builder()
-                .name("John")
-                .email("john@test.com")
-                .password(encoder.encode("wrongpassword"))
-                .role("USER")
-                .build();
+        User user = new User(
+                null,
+                "John",
+                "john@test.com",
+                encoder.encode("wrongpassword"),
+                "USER",
+                java.util.List.of());
         when(userRepository.findByEmail("john@test.com")).thenReturn(Optional.of(user));
 
-        String result = authService.login(request);
+        LoginResult result = authService.login(request);
 
-        assertEquals("Invalid password!", result);
+        assertTrue(result instanceof LoginResult.InvalidPassword);
+        verify(jwtService, never()).generateToken(anyString(), anyString());
+    }
+
+    @Test
+    void login_UserNotFound() {
+        LoginRequest request = createLoginRequest();
+        when(userRepository.findByEmail("john@test.com")).thenReturn(Optional.empty());
+
+        LoginResult result = authService.login(request);
+
+        assertTrue(result instanceof LoginResult.UserNotFound);
         verify(jwtService, never()).generateToken(anyString(), anyString());
     }
 
     private RegisterRequest createRegisterRequest() {
-        return RegisterRequest.builder()
-                .name("John")
-                .email("john@test.com")
-                .password("password123")
-                .role("USER")
-                .skills(java.util.List.of("Java", "Spring"))
-                .build();
+        return new RegisterRequest(
+                "John",
+                "john@test.com",
+                "password123",
+                "USER",
+                java.util.List.of("Java", "Spring"));
     }
 
     private LoginRequest createLoginRequest() {
-        return LoginRequest.builder()
-                .email("john@test.com")
-                .password("password123")
-                .build();
+        return new LoginRequest(
+                "john@test.com",
+                "password123");
     }
 }
