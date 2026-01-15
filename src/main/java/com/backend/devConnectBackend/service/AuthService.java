@@ -6,7 +6,7 @@ import com.backend.devConnectBackend.dto.RegisterRequest;
 import com.backend.devConnectBackend.model.User;
 import com.backend.devConnectBackend.repository.UserRepository;
 import com.backend.devConnectBackend.security.JwtService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +16,12 @@ public class AuthService {
 
     private final UserRepository repo;
     private final JwtService jwt;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder encoder;
 
-    public AuthService(UserRepository repo, JwtService jwt) {
+    public AuthService(UserRepository repo, JwtService jwt, PasswordEncoder encoder) {
         this.repo = repo;
         this.jwt = jwt;
+        this.encoder = encoder;
     }
 
     public void register(RegisterRequest request) {
