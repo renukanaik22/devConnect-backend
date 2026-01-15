@@ -36,7 +36,9 @@ public class AuthService {
                 request.email(),
                 hashed,
                 request.role(),
-                request.skills());
+                request.skills(),
+                request.currentSalary(),
+                request.expectedSalary());
         repo.save(user);
     }
 

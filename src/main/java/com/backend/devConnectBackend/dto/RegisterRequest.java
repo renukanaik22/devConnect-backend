@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,11 @@ public record RegisterRequest(
 
         @NotBlank(message = "Role is required") String role,
 
-        List<String> skills) {
+        List<String> skills,
+
+        @PositiveOrZero(message = "Current salary must be zero or positive") BigDecimal currentSalary,
+
+        @PositiveOrZero(message = "Expected salary must be zero or positive") BigDecimal expectedSalary) {
     // Compact constructor to handle null skills with default empty list
     public RegisterRequest {
         if (skills == null) {

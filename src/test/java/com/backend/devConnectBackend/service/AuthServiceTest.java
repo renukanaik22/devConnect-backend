@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,7 +58,9 @@ class AuthServiceTest {
                 "john@test.com",
                 encoder.encode("password123"),
                 "USER",
-                java.util.List.of());
+                java.util.List.of(),
+                new BigDecimal("50000.00"),
+                new BigDecimal("60000.00"));
         when(userRepository.findByEmail("john@test.com")).thenReturn(Optional.of(user));
         when(jwtService.generateToken("john@test.com", "USER")).thenReturn("jwt-token");
 
@@ -77,7 +80,9 @@ class AuthServiceTest {
                 "john@test.com",
                 encoder.encode("wrongpassword"),
                 "USER",
-                java.util.List.of());
+                java.util.List.of(),
+                new BigDecimal("50000.00"),
+                new BigDecimal("60000.00"));
         when(userRepository.findByEmail("john@test.com")).thenReturn(Optional.of(user));
 
         LoginResult result = authService.login(request);
@@ -103,7 +108,9 @@ class AuthServiceTest {
                 "john@test.com",
                 "password123",
                 "USER",
-                java.util.List.of("Java", "Spring"));
+                java.util.List.of("Java", "Spring"),
+                new BigDecimal("50000.00"),
+                new BigDecimal("60000.00"));
     }
 
     private LoginRequest createLoginRequest() {

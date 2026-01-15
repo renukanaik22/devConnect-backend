@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,19 +26,24 @@ public class User implements UserDetails {
     private String password;
     private String role;
     private List<String> skills = new ArrayList<>();
+    private BigDecimal currentSalary;
+    private BigDecimal expectedSalary;
 
     // No-args constructor (required by MongoDB)
     public User() {
     }
 
     // All-args constructor
-    public User(String id, String name, String email, String password, String role, List<String> skills) {
+    public User(String id, String name, String email, String password, String role, List<String> skills,
+            BigDecimal currentSalary, BigDecimal expectedSalary) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
         this.skills = skills != null ? skills : new ArrayList<>();
+        this.currentSalary = currentSalary;
+        this.expectedSalary = expectedSalary;
     }
 
     // Getters and Setters
@@ -88,6 +94,22 @@ public class User implements UserDetails {
 
     public void setSkills(List<String> skills) {
         this.skills = skills;
+    }
+
+    public BigDecimal getCurrentSalary() {
+        return currentSalary;
+    }
+
+    public void setCurrentSalary(BigDecimal currentSalary) {
+        this.currentSalary = currentSalary;
+    }
+
+    public BigDecimal getExpectedSalary() {
+        return expectedSalary;
+    }
+
+    public void setExpectedSalary(BigDecimal expectedSalary) {
+        this.expectedSalary = expectedSalary;
     }
 
     // UserDetails interface methods

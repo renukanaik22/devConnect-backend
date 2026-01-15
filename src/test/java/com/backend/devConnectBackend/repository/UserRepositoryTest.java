@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +27,9 @@ public class UserRepositoryTest {
                 "repo@test.com",
                 "pass",
                 "USER",
-                java.util.List.of("MongoDB"));
+                java.util.List.of("MongoDB"),
+                new BigDecimal("50000.00"),
+                new BigDecimal("60000.00"));
         userRepository.save(user);
 
         Optional<User> found = userRepository.findByEmail("repo@test.com");

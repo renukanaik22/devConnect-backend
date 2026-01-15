@@ -53,4 +53,3 @@ public class AuthController {
     }
 
 }
-// Frontend → backend service → repo → JWT → response.
