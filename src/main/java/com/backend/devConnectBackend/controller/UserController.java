@@ -1,12 +1,11 @@
 package com.backend.devConnectBackend.controller;
 
 import com.backend.devConnectBackend.dto.ProfileResult;
+import com.backend.devConnectBackend.model.User;
 import com.backend.devConnectBackend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +20,8 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Object> getCurrentUserProfile() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
+    public ResponseEntity<Object> getCurrentUserProfile(@AuthenticationPrincipal User authenticatedUser) {
+        String email = authenticatedUser.getEmail();
 
         ProfileResult result = userService.getCurrentUserProfile(email);
 
@@ -37,12 +35,10 @@ public class UserController {
     }
 
     @GetMapping("/profile/{id}")
-    public ResponseEntity<Object> getUserProfile(@PathVariable String id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String role = auth.getAuthorities().stream()
-                .findFirst()
-                .map(GrantedAuthority::getAuthority)
-                .orElse("USER");
+    public ResponseEntity<Object> getUserProfile(
+            @PathVariable String id,
+            @AuthenticationPrincipal User authenticatedUser) {
+        String role = authenticatedUser.getRole().name();
 
         ProfileResult result = userService.getUserProfile(id, role);
 
