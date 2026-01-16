@@ -26,6 +26,15 @@ class AuthControllerTest {
     @MockBean
     private AuthService authService;
 
+    @MockBean
+    private com.backend.devConnectBackend.service.UserService userService;
+
+    @MockBean
+    private com.backend.devConnectBackend.repository.UserRepository userRepository;
+
+    @MockBean
+    private com.backend.devConnectBackend.security.JwtService jwtService;
+
     @Test
     @WithMockUser
     void register_FourParameters() throws Exception {
