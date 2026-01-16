@@ -1,6 +1,7 @@
 package com.backend.devConnectBackend.service;
 
 import com.backend.devConnectBackend.dto.ProfileResult;
+import com.backend.devConnectBackend.model.Role;
 import com.backend.devConnectBackend.model.User;
 import com.backend.devConnectBackend.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ class UserServiceTest {
                 "John Doe",
                 "john@test.com",
                 "hashedPassword",
-                "USER",
+                Role.USER,
                 List.of("Java", "Spring"),
                 new BigDecimal("50000.00"),
                 new BigDecimal("60000.00"));

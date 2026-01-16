@@ -30,7 +30,7 @@ public class UserService {
                     user.getId(),
                     user.getName(),
                     user.getEmail(),
-                    user.getRole(),
+                    user.getRole().name(),
                     user.getSkills(),
                     user.getCurrentSalary(),
                     user.getExpectedSalary());
@@ -39,7 +39,7 @@ public class UserService {
                     user.getId(),
                     user.getName(),
                     user.getEmail(),
-                    user.getRole(),
+                    user.getRole().name(),
                     user.getSkills());
         }
     }
@@ -57,7 +57,7 @@ public class UserService {
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getRole(),
+                user.getRole().name(),
                 user.getSkills(),
                 user.getCurrentSalary(),
                 user.getExpectedSalary());

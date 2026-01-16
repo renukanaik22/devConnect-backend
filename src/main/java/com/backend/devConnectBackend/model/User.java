@@ -24,7 +24,7 @@ public class User implements UserDetails {
     private String email;
 
     private String password;
-    private String role;
+    private Role role;
     private List<String> skills = new ArrayList<>();
     private BigDecimal currentSalary;
     private BigDecimal expectedSalary;
@@ -34,7 +34,7 @@ public class User implements UserDetails {
     }
 
     // All-args constructor
-    public User(String id, String name, String email, String password, String role, List<String> skills,
+    public User(String id, String name, String email, String password, Role role, List<String> skills,
             BigDecimal currentSalary, BigDecimal expectedSalary) {
         this.id = id;
         this.name = name;
@@ -80,11 +80,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -112,10 +112,9 @@ public class User implements UserDetails {
         this.expectedSalary = expectedSalary;
     }
 
-    // UserDetails interface methods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

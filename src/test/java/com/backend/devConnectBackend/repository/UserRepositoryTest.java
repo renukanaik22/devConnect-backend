@@ -1,11 +1,11 @@
 package com.backend.devConnectBackend.repository;
 
+import com.backend.devConnectBackend.model.Role;
 import com.backend.devConnectBackend.model.User;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class UserRepositoryTest {
                 "TestRepo",
                 "repo@test.com",
                 "pass",
-                "USER",
+                Role.USER,
                 java.util.List.of("MongoDB"),
                 new BigDecimal("50000.00"),
                 new BigDecimal("60000.00"));

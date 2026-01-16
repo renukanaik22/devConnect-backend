@@ -3,6 +3,7 @@ package com.backend.devConnectBackend.service;
 import com.backend.devConnectBackend.dto.LoginRequest;
 import com.backend.devConnectBackend.dto.LoginResult;
 import com.backend.devConnectBackend.dto.RegisterRequest;
+import com.backend.devConnectBackend.model.Role;
 import com.backend.devConnectBackend.model.User;
 import com.backend.devConnectBackend.repository.UserRepository;
 import com.backend.devConnectBackend.security.JwtService;
@@ -57,7 +58,7 @@ class AuthServiceTest {
                 "John",
                 "john@test.com",
                 encoder.encode("password123"),
-                "USER",
+                Role.USER,
                 java.util.List.of(),
                 new BigDecimal("50000.00"),
                 new BigDecimal("60000.00"));
@@ -79,7 +80,7 @@ class AuthServiceTest {
                 "John",
                 "john@test.com",
                 encoder.encode("wrongpassword"),
-                "USER",
+                Role.USER,
                 java.util.List.of(),
                 new BigDecimal("50000.00"),
                 new BigDecimal("60000.00"));
@@ -107,7 +108,7 @@ class AuthServiceTest {
                 "John",
                 "john@test.com",
                 "password123",
-                "USER",
+                Role.USER,
                 java.util.List.of("Java", "Spring"),
                 new BigDecimal("50000.00"),
                 new BigDecimal("60000.00"));

@@ -63,7 +63,7 @@ public class AuthService {
             return new LoginResult.InvalidPassword();
         }
 
-        String token = jwt.generateToken(user.getEmail(), user.getRole());
+        String token = jwt.generateToken(user.getEmail(), user.getRole().name());
         return new LoginResult.Success(token);
     }
 }
