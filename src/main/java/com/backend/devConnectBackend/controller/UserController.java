@@ -34,13 +34,14 @@ public class UserController {
         throw new IllegalStateException("Unexpected ProfileResult type");
     }
 
-    @GetMapping("/profile/{id}")
+    @GetMapping("/profile/{profileId}")
     public ResponseEntity<Object> getUserProfile(
-            @PathVariable String id,
+            @PathVariable String profileId,
             @AuthenticationPrincipal User authenticatedUser) {
         String role = authenticatedUser.getRole().name();
+        String authenticatedUserId = authenticatedUser.getId();
 
-        ProfileResult result = userService.getUserProfile(id, role);
+        ProfileResult result = userService.getUserProfile(profileId, role, authenticatedUserId);
 
         if (result instanceof ProfileResult.ProfileNotFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");

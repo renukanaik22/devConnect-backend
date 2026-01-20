@@ -16,8 +16,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public ProfileResult getUserProfile(String userId, String requestingUserRole) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public ProfileResult getUserProfile(String profileId, String requestingUserRole, String requestingUserId) {
+        Optional<User> userOptional = userRepository.findById(profileId);
 
         if (userOptional.isEmpty()) {
             return new ProfileResult.ProfileNotFound();
@@ -25,7 +25,7 @@ public class UserService {
 
         User user = userOptional.get();
 
-        if ("ADMIN".equals(requestingUserRole)) {
+        if ("ADMIN".equals(requestingUserRole) || profileId.equals(requestingUserId)) {
             return new ProfileResult.FullProfile(
                     user.getId(),
                     user.getName(),

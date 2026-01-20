@@ -46,7 +46,7 @@ class UserServiceTest {
     void getUserProfile_AsAdmin_ReturnsFullProfile() {
         when(userRepository.findById("123")).thenReturn(Optional.of(testUser));
 
-        ProfileResult result = userService.getUserProfile("123", "ADMIN");
+        ProfileResult result = userService.getUserProfile("123", "ADMIN", "456");
 
         assertTrue(result instanceof ProfileResult.FullProfile);
         ProfileResult.FullProfile profile = (ProfileResult.FullProfile) result;
@@ -60,10 +60,10 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserProfile_AsUser_ReturnsPublicProfile() {
+    void getUserProfile_AsUser_ViewingOtherProfile_ReturnsPublicProfile() {
         when(userRepository.findById("123")).thenReturn(Optional.of(testUser));
 
-        ProfileResult result = userService.getUserProfile("123", "USER");
+        ProfileResult result = userService.getUserProfile("123", "USER", "456");
 
         assertTrue(result instanceof ProfileResult.PublicProfile);
         ProfileResult.PublicProfile profile = (ProfileResult.PublicProfile) result;
@@ -75,10 +75,27 @@ class UserServiceTest {
     }
 
     @Test
+    void getUserProfile_AsUser_ViewingOwnProfile_ReturnsFullProfile() {
+        when(userRepository.findById("123")).thenReturn(Optional.of(testUser));
+
+        ProfileResult result = userService.getUserProfile("123", "USER", "123");
+
+        assertTrue(result instanceof ProfileResult.FullProfile);
+        ProfileResult.FullProfile profile = (ProfileResult.FullProfile) result;
+        assertEquals("123", profile.id());
+        assertEquals("John Doe", profile.name());
+        assertEquals("john@test.com", profile.email());
+        assertEquals("USER", profile.role());
+        assertEquals(List.of("Java", "Spring"), profile.skills());
+        assertEquals(new BigDecimal("50000.00"), profile.currentSalary());
+        assertEquals(new BigDecimal("60000.00"), profile.expectedSalary());
+    }
+
+    @Test
     void getUserProfile_NotFound_ReturnsProfileNotFound() {
         when(userRepository.findById("999")).thenReturn(Optional.empty());
 
-        ProfileResult result = userService.getUserProfile("999", "USER");
+        ProfileResult result = userService.getUserProfile("999", "USER", "123");
 
         assertTrue(result instanceof ProfileResult.ProfileNotFound);
     }
