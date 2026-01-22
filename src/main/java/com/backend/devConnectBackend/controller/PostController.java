@@ -1,5 +1,6 @@
 package com.backend.devConnectBackend.controller;
 
+import com.backend.devConnectBackend.constants.OwnerFilter;
 import com.backend.devConnectBackend.dto.PostRequest;
 import com.backend.devConnectBackend.dto.PostResponse;
 import com.backend.devConnectBackend.service.PostService;
@@ -33,16 +34,17 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    /**
-     * Get all public posts with pagination.
-     * Default: page=0, size=20, sort by createdAt descending
-     *
-     * @param pageable Pagination parameters from query params
-     * @return Page of PostResponse
-     */
     @GetMapping
-    public ResponseEntity<Page<PostResponse>> getAllPublicPosts(
-            @PageableDefault(size = 2, sort = "createdAt", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<PostResponse>> getAllPosts(
+            @RequestParam(required = false) String owner,
+            @PageableDefault(size = 2, sort = "createdAt", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable,
+            Authentication authentication) {
+
+        if (owner != null && OwnerFilter.ME.name().equalsIgnoreCase(owner)) {
+            String userEmail = authentication.getName();
+            Page<PostResponse> myPosts = postService.getMyPosts(userEmail, pageable);
+            return ResponseEntity.ok(myPosts);
+        }
 
         Page<PostResponse> publicPosts = postService.getAllPublicPosts(pageable);
         return ResponseEntity.ok(publicPosts);

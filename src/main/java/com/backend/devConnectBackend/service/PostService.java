@@ -39,8 +39,13 @@ public class PostService {
     public Page<PostResponse> getAllPublicPosts(Pageable pageable) {
         Page<Post> publicPosts = postRepository.findByVisibilityTrue(pageable);
 
-        // Map Page<Post> to Page<PostResponse>
         return publicPosts.map(this::mapToResponse);
+    }
+
+    public Page<PostResponse> getMyPosts(String userEmail, Pageable pageable) {
+        Page<Post> myPosts = postRepository.findByUserId(userEmail, pageable);
+
+        return myPosts.map(this::mapToResponse);
     }
 
     private PostResponse mapToResponse(Post post) {
