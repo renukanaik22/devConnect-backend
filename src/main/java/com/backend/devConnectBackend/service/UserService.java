@@ -1,6 +1,7 @@
 package com.backend.devConnectBackend.service;
 
 import com.backend.devConnectBackend.dto.ProfileResult;
+import com.backend.devConnectBackend.model.Role;
 import com.backend.devConnectBackend.model.User;
 import com.backend.devConnectBackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class UserService {
 
         User user = userOptional.get();
 
-        if ("ADMIN".equals(requestingUserRole) || profileId.equals(requestingUserId)) {
+        if (Role.ADMIN.name().equals(requestingUserRole) || profileId.equals(requestingUserId)) {
             return new ProfileResult.FullProfile(
                     user.getId(),
                     user.getName(),
