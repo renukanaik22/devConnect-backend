@@ -49,4 +49,27 @@ public class PostController {
         Page<PostResponse> publicPosts = postService.getAllPublicPosts(pageable);
         return ResponseEntity.ok(publicPosts);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostResponse> updatePost(
+            @PathVariable String id,
+            @Valid @RequestBody PostRequest request,
+            Authentication authentication) {
+
+        String userEmail = authentication.getName();
+        PostResponse response = postService.updatePost(id, request, userEmail);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(
+            @PathVariable String id,
+            Authentication authentication) {
+
+        String userEmail = authentication.getName();
+        postService.deletePost(id, userEmail);
+
+        return ResponseEntity.noContent().build();
+    }
 }
