@@ -31,20 +31,16 @@ public class CommentService {
     }
 
     public CommentResponse addComment(String postId, CommentRequest request, String userEmail) {
-        // Find post
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
 
-        // Check if post is public
         if (!Boolean.TRUE.equals(post.getVisibility())) {
             throw new UnauthorizedAccessException("Cannot comment on private posts");
         }
 
-        // Find user
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + userEmail));
 
-        // Create comment
         Comment comment = new Comment();
         comment.setContent(request.content());
         comment.setPost(post);
@@ -56,16 +52,13 @@ public class CommentService {
     }
 
     public List<CommentResponse> getComments(String postId) {
-        // Find post
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
 
-        // Check if post is public
         if (!Boolean.TRUE.equals(post.getVisibility())) {
             throw new UnauthorizedAccessException("Cannot view comments on private posts");
         }
 
-        // Get comments
         List<Comment> comments = commentRepository.findByPostOrderByCreatedAtDesc(post);
 
         return comments.stream()
@@ -74,15 +67,12 @@ public class CommentService {
     }
 
     public void deleteComment(String commentId, String userEmail) {
-        // Find comment
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CommentNotFoundException("Comment not found with id: " + commentId));
 
-        // Find user
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + userEmail));
 
-        // Check ownership
         if (!comment.getUser().getId().equals(user.getId())) {
             throw new UnauthorizedAccessException("You are not authorized to delete this comment");
         }
