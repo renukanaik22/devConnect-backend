@@ -11,10 +11,9 @@ import com.backend.devConnectBackend.model.User;
 import com.backend.devConnectBackend.repository.CommentRepository;
 import com.backend.devConnectBackend.repository.PostRepository;
 import com.backend.devConnectBackend.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -54,7 +53,14 @@ public class CommentService {
         return mapToResponse(savedComment);
     }
 
-    public List<CommentResponse> getComments(String postId) {
+    /**
+     * Get comments for a post with pagination.
+     *
+     * @param postId   the post ID
+     * @param pageable pagination parameters (page, size, sort)
+     * @return Page of CommentResponse
+     */
+    public Page<CommentResponse> getComments(String postId, Pageable pageable) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with id: " + postId));
 
@@ -62,11 +68,9 @@ public class CommentService {
             throw new UnauthorizedAccessException("Cannot view comments on private posts");
         }
 
-        List<Comment> comments = commentRepository.findByPostOrderByCreatedAtDesc(post);
+        Page<Comment> comments = commentRepository.findByPostOrderByCreatedAtDesc(post, pageable);
 
-        return comments.stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+        return comments.map(this::mapToResponse);
     }
 
     public void deleteComment(String commentId, String userEmail) {

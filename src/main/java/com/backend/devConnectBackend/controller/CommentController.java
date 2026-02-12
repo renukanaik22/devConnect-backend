@@ -4,12 +4,14 @@ import com.backend.devConnectBackend.dto.CommentRequest;
 import com.backend.devConnectBackend.dto.CommentResponse;
 import com.backend.devConnectBackend.service.CommentService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class CommentController {
@@ -33,8 +35,10 @@ public class CommentController {
     }
 
     @GetMapping("/posts/{postId}/comments")
-    public ResponseEntity<List<CommentResponse>> getComments(@PathVariable String postId) {
-        List<CommentResponse> comments = commentService.getComments(postId);
+    public ResponseEntity<Page<CommentResponse>> getComments(
+            @PathVariable String postId,
+            @PageableDefault(size = 2, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<CommentResponse> comments = commentService.getComments(postId, pageable);
         return ResponseEntity.ok(comments);
     }
 
