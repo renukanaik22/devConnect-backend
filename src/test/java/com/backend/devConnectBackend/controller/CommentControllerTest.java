@@ -1,6 +1,9 @@
 package com.backend.devConnectBackend.controller;
 
+import com.backend.devConnectBackend.dto.CommentRequest;
 import com.backend.devConnectBackend.dto.CommentResponse;
+import com.backend.devConnectBackend.security.JwtAuthenticationFilter;
+import com.backend.devConnectBackend.security.JwtService;
 import com.backend.devConnectBackend.service.CommentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -37,6 +40,12 @@ class CommentControllerTest {
 
         @MockBean
         private CommentService commentService;
+
+        @MockBean
+        private JwtService jwtService;
+
+        @MockBean
+        private JwtAuthenticationFilter jwtAuthenticationFilter;
 
         @Test
         @WithMockUser(username = "test@example.com")
