@@ -20,6 +20,7 @@ public class Post {
     private List<String> techStack = new ArrayList<>();
     private Boolean visibility;
     private String userId;
+    private Integer commentCount = 0;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -31,13 +32,14 @@ public class Post {
     }
 
     public Post(String id, String title, String description, List<String> techStack,
-            Boolean visibility, String userId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+            Boolean visibility, String userId, Integer commentCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.techStack = techStack != null ? techStack : new ArrayList<>();
         this.visibility = visibility;
         this.userId = userId;
+        this.commentCount = commentCount != null ? commentCount : 0;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -104,5 +106,13 @@ public class Post {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
     }
 }

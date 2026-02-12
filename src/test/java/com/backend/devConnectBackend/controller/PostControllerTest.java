@@ -63,6 +63,7 @@ class PostControllerTest {
                                 List.of("Java", "Spring Boot"),
                                 true,
                                 "test@example.com",
+                                0,
                                 LocalDateTime.now(),
                                 LocalDateTime.now());
 
@@ -139,6 +140,7 @@ class PostControllerTest {
                                                 List.of("Java"),
                                                 true,
                                                 "user123",
+                                                0,
                                                 LocalDateTime.now(),
                                                 LocalDateTime.now()),
                                 new PostResponse(
@@ -148,6 +150,7 @@ class PostControllerTest {
                                                 List.of("Python"),
                                                 true,
                                                 "user456",
+                                                0,
                                                 LocalDateTime.now(),
                                                 LocalDateTime.now()));
 

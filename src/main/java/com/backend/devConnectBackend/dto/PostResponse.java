@@ -4,12 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record PostResponse(
-        String id,
-        String title,
-        String description,
-        List<String> techStack,
-        Boolean visibility,
-        String userId,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt) {
+                String id,
+                String title,
+                String description,
+                List<String> techStack,
+                Boolean visibility,
+                String userId,
+                Integer commentCount,
+                LocalDateTime createdAt,
+                LocalDateTime updatedAt) {
 }

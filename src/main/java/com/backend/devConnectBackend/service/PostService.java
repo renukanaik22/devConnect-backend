@@ -86,6 +86,7 @@ public class PostService {
                 post.getTechStack(),
                 post.getVisibility(),
                 post.getUserId(),
+                post.getCommentCount(),
                 post.getCreatedAt(),
                 post.getUpdatedAt());
     }

@@ -51,6 +51,7 @@ class PostServiceTest {
                 List.of("Java", "Spring Boot"),
                 true,
                 "user123",
+                0,
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
@@ -90,6 +91,7 @@ class PostServiceTest {
                 new ArrayList<>(),
                 true,
                 "user123",
+                0,
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
@@ -111,6 +113,7 @@ class PostServiceTest {
                         List.of("Java"),
                         true,
                         "user123",
+                        0,
                         LocalDateTime.now(),
                         LocalDateTime.now()),
                 new Post(
@@ -120,6 +123,7 @@ class PostServiceTest {
                         List.of("Python"),
                         true,
                         "user456",
+                        0,
                         LocalDateTime.now(),
                         LocalDateTime.now()));
 

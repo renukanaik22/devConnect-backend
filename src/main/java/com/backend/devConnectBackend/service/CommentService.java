@@ -48,6 +48,9 @@ public class CommentService {
 
         Comment savedComment = commentRepository.save(comment);
 
+        // Atomically increment comment count
+        postRepository.incrementCommentCount(postId, 1);
+
         return mapToResponse(savedComment);
     }
 
@@ -77,7 +80,11 @@ public class CommentService {
             throw new UnauthorizedAccessException("You are not authorized to delete this comment");
         }
 
+        String postId = comment.getPost().getId();
         commentRepository.delete(comment);
+
+        // Atomically decrement comment count
+        postRepository.incrementCommentCount(postId, -1);
     }
 
     private CommentResponse mapToResponse(Comment comment) {
