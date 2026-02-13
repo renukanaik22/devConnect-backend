@@ -21,6 +21,8 @@ public class Post {
     private Boolean visibility;
     private String userId;
     private Integer commentCount = 0;
+    private Integer likeCount = 0;
+    private Integer dislikeCount = 0;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -32,7 +34,8 @@ public class Post {
     }
 
     public Post(String id, String title, String description, List<String> techStack,
-            Boolean visibility, String userId, Integer commentCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+            Boolean visibility, String userId, Integer commentCount, Integer likeCount, Integer dislikeCount,
+            LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -40,6 +43,8 @@ public class Post {
         this.visibility = visibility;
         this.userId = userId;
         this.commentCount = commentCount != null ? commentCount : 0;
+        this.likeCount = likeCount != null ? likeCount : 0;
+        this.dislikeCount = dislikeCount != null ? dislikeCount : 0;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -114,5 +119,21 @@ public class Post {
 
     public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Integer getDislikeCount() {
+        return dislikeCount;
+    }
+
+    public void setDislikeCount(Integer dislikeCount) {
+        this.dislikeCount = dislikeCount;
     }
 }

@@ -1,16 +1,31 @@
 package com.backend.devConnectBackend.repository;
 
 /**
- * Custom repository interface for Post operations that require custom MongoDB
- * queries.
+ * Custom repository interface for atomic Post operations.
  */
 public interface PostRepositoryCustom {
 
     /**
-     * Increment comment count for a post atomically using MongoDB's $inc operator.
+     * Atomically increment or decrement the comment count for a post.
      *
-     * @param postId Post ID to increment count for
+     * @param postId Post ID
      * @param delta  Amount to increment (positive) or decrement (negative)
      */
     void incrementCommentCount(String postId, int delta);
+
+    /**
+     * Atomically increment or decrement the like count for a post.
+     *
+     * @param postId Post ID
+     * @param delta  Amount to increment (positive) or decrement (negative)
+     */
+    void incrementLikeCount(String postId, int delta);
+
+    /**
+     * Atomically increment or decrement the dislike count for a post.
+     *
+     * @param postId Post ID
+     * @param delta  Amount to increment (positive) or decrement (negative)
+     */
+    void incrementDislikeCount(String postId, int delta);
 }

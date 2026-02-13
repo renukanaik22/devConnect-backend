@@ -29,11 +29,16 @@ class PostServiceTest {
     @Mock
     private PostRepository postRepository;
 
+    @Mock
+    private ReactionService reactionService;
+
     private PostService postService;
 
     @BeforeEach
     void setUp() {
-        postService = new PostService(postRepository);
+        postRepository = mock(PostRepository.class);
+        reactionService = mock(ReactionService.class);
+        postService = new PostService(postRepository, reactionService);
     }
 
     @Test
@@ -51,6 +56,8 @@ class PostServiceTest {
                 List.of("Java", "Spring Boot"),
                 true,
                 "user123",
+                0,
+                0,
                 0,
                 LocalDateTime.now(),
                 LocalDateTime.now());
@@ -92,6 +99,8 @@ class PostServiceTest {
                 true,
                 "user123",
                 0,
+                0,
+                0,
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
@@ -114,6 +123,8 @@ class PostServiceTest {
                         true,
                         "user123",
                         0,
+                        0,
+                        0,
                         LocalDateTime.now(),
                         LocalDateTime.now()),
                 new Post(
@@ -123,6 +134,8 @@ class PostServiceTest {
                         List.of("Python"),
                         true,
                         "user456",
+                        0,
+                        0,
                         0,
                         LocalDateTime.now(),
                         LocalDateTime.now()));

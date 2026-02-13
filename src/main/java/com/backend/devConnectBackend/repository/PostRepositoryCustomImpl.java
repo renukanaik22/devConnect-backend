@@ -26,4 +26,18 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         Update update = new Update().inc("commentCount", delta);
         mongoTemplate.updateFirst(query, update, Post.class);
     }
+
+    @Override
+    public void incrementLikeCount(String postId, int delta) {
+        Query query = new Query(Criteria.where("_id").is(postId));
+        Update update = new Update().inc("likeCount", delta);
+        mongoTemplate.updateFirst(query, update, Post.class);
+    }
+
+    @Override
+    public void incrementDislikeCount(String postId, int delta) {
+        Query query = new Query(Criteria.where("_id").is(postId));
+        Update update = new Update().inc("dislikeCount", delta);
+        mongoTemplate.updateFirst(query, update, Post.class);
+    }
 }

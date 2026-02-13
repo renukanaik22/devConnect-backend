@@ -64,6 +64,9 @@ class PostControllerTest {
                                 true,
                                 "test@example.com",
                                 0,
+                                0,
+                                0,
+                                null,
                                 LocalDateTime.now(),
                                 LocalDateTime.now());
 
@@ -141,6 +144,9 @@ class PostControllerTest {
                                                 true,
                                                 "user123",
                                                 0,
+                                                0,
+                                                0,
+                                                null,
                                                 LocalDateTime.now(),
                                                 LocalDateTime.now()),
                                 new PostResponse(
@@ -151,6 +157,9 @@ class PostControllerTest {
                                                 true,
                                                 "user456",
                                                 0,
+                                                0,
+                                                0,
+                                                null,
                                                 LocalDateTime.now(),
                                                 LocalDateTime.now()));
 

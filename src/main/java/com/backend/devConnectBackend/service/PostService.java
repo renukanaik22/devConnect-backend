@@ -1,11 +1,13 @@
 package com.backend.devConnectBackend.service;
 
+import com.backend.devConnectBackend.constants.ReactionType;
 import com.backend.devConnectBackend.dto.PostRequest;
 import com.backend.devConnectBackend.dto.PostResponse;
 import com.backend.devConnectBackend.exception.PostNotFoundException;
 import com.backend.devConnectBackend.exception.UnauthorizedAccessException;
 import com.backend.devConnectBackend.model.Post;
 import com.backend.devConnectBackend.repository.PostRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,11 @@ import org.springframework.stereotype.Service;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final ReactionService reactionService;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, @Lazy ReactionService reactionService) {
         this.postRepository = postRepository;
+        this.reactionService = reactionService;
     }
 
     public PostResponse createPost(PostRequest request, String userEmail) {
@@ -79,6 +83,16 @@ public class PostService {
     }
 
     private PostResponse mapToResponse(Post post) {
+        return mapToResponse(post, null);
+    }
+
+    private PostResponse mapToResponse(Post post, String userId) {
+        ReactionType userReaction = null;
+        if (userId != null && reactionService != null) {
+            userReaction = reactionService.getUserReaction(post.getId(), userId)
+                    .orElse(null);
+        }
+
         return new PostResponse(
                 post.getId(),
                 post.getTitle(),
@@ -87,6 +101,9 @@ public class PostService {
                 post.getVisibility(),
                 post.getUserId(),
                 post.getCommentCount(),
+                post.getLikeCount(),
+                post.getDislikeCount(),
+                userReaction,
                 post.getCreatedAt(),
                 post.getUpdatedAt());
     }
