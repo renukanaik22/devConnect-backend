@@ -36,12 +36,6 @@ public class PostService {
         return mapToResponse(savedPost);
     }
 
-    /**
-     * Get all public posts with pagination.
-     *
-     * @param pageable Pagination parameters (page, size, sort)
-     * @return Page of PostResponse
-     */
     public Page<PostResponse> getAllPublicPosts(Pageable pageable) {
         Page<Post> publicPosts = postRepository.findByVisibilityTrue(pageable);
 
@@ -52,6 +46,11 @@ public class PostService {
         Page<Post> myPosts = postRepository.findByUserId(userEmail, pageable);
 
         return myPosts.map(this::mapToResponse);
+    }
+
+    public Page<PostResponse> searchPublicPosts(String techStack, String title, Pageable pageable) {
+        Page<Post> posts = postRepository.searchPublicPosts(techStack, title, pageable);
+        return posts.map(this::mapToResponse);
     }
 
     public PostResponse updatePost(String id, PostRequest request, String userEmail) {

@@ -50,6 +50,16 @@ public class PostController {
         return ResponseEntity.ok(publicPosts);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<PostResponse>> searchPosts(
+            @RequestParam(required = false) String techStack,
+            @RequestParam(required = false) String title,
+            @PageableDefault(size = 10, sort = "createdAt", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable) {
+
+        Page<PostResponse> posts = postService.searchPublicPosts(techStack, title, pageable);
+        return ResponseEntity.ok(posts);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<PostResponse> updatePost(
             @PathVariable String id,
